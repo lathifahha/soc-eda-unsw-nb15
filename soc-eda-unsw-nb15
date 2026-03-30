@@ -1,0 +1,36 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('UNSW_NB15_training-set.csv')
+print(df.shape)
+
+df.head()          # first 5 rows
+df.tail()          # last 5 rows
+df.info()          # col names + types
+df.describe()      # stats summary
+# df.describe().to_csv('statistik_data.csv')
+
+df.isnull().sum()
+
+df['attack_cat'].value_counts()
+
+df['attack_cat'].value_counts().plot(kind='bar')
+plt.title('Attack Category Distribution')
+plt.xlabel('Attack Type')
+plt.ylabel('Count')
+plt.tight_layout()
+plt.show()
+
+df['label'].value_counts().plot(kind='pie',
+    labels=['Normal','Attack'],
+    autopct='%1.1f%%')
+plt.title('Normal vs Attack Traffic')
+plt.show()
+
+num_cols = df.select_dtypes(include='number').iloc[:, :10]
+sns.heatmap(num_cols.corr(), annot=True, fmt='.1f', cmap='Blues')
+plt.title('Feature Correlation Heatmap')
+plt.show()
+
+df['proto'].value_counts()
